@@ -2,12 +2,21 @@ import json
 
 from box_sdk_gen import BoxClient, BoxDeveloperTokenAuth
 
-with open("config.json", "r" ) as f:
-    config = json.load(f)
+def authenticate_box():
+    """Authenticate with Box API"""
 
-BoxDeveloperTokenAuth = BoxDeveloperTokenAuth(token=config["developer_token"])
+    # Open config json where developer key is stored
+    # Developer key can be generated at
+    # https://app.box.com/developers/console
+    with open("config.json", "r" ) as f:
+        config = json.load(f)
 
-BoxClient = BoxClient(auth=BoxDeveloperTokenAuth)
+    # Authenticate using the dev token
+    BoxDeveloperTokenAuth = BoxDeveloperTokenAuth(token=config["developer_token"])
 
-for item in BoxClient.folders.get_folder_items('0').entries:
-    print(item.name)
+    return BoxClient(auth=BoxDeveloperTokenAuth)
+
+
+
+#for item in BoxClient.folders.get_folder_items('0').entries:
+#    print(item.name)
