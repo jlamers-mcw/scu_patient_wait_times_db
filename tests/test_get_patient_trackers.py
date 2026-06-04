@@ -20,4 +20,4 @@ def test_find_folder_by_path_SCU():
 
     folder = find_folder_by_path(client,[ "SCU" ])
 
-    assert "SCU" == folder.get().name
+    assert "SCU" == folder.name

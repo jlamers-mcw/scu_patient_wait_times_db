@@ -12,25 +12,27 @@ def authenticate_box():
         config = json.load(f)
 
     # Authenticate using the dev token
-    BoxDeveloperTokenAuth = BoxDeveloperTokenAuth(token=config["developer_token"])
+    # Can get code here: https://account.box.com/developers/console
+    BoxDeveloperTokenAuth_var = BoxDeveloperTokenAuth(token=config["developer_token"])
 
-    return BoxClient(auth=BoxDeveloperTokenAuth)
+    return BoxClient(auth=BoxDeveloperTokenAuth_var)
 
 def find_folder_by_path(client, path_components):
     """Navigate through folder hierarchy to find target folder"""
-    current_folder = client.folder('0') # Start at root
+    current_folder = client.folders.get_folder_items('0') # Start at root
 
     for folder_name in path_components:
-        items = current_folder.get_items()
+        items = current_folder.entries
         found = False
 
         for item in items:
             if item.type == 'folder' and item.name == folder_name:
-                current_folder = client.folder(item.id)
+                current_folder = client.folders.get_folder_items(item.id)
                 found = True
                 print(f"Found folder: {folder_name}")
                 break
 
         if not found:
             raise ValueError(f"Folder '{folder_name}' not found in path")
-
+        else:
+            return item
