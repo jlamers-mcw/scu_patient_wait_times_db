@@ -32,7 +32,8 @@ def find_folder_by_path(client, path_components):
                 print(f"Found folder: {folder_name}")
                 break
 
-        if not found:
-            raise ValueError(f"Folder '{folder_name}' not found in path")
-        else:
-            return item
+    
+    if not found:
+        raise ValueError(f"Folder '{folder_name}' not found in path")
+    else:
+        return item
